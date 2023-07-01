@@ -20,7 +20,7 @@ import ShowAdmin from './components/ShowAdmin.js'
 // function
 import Booking from './components/Booking.js'
 import Blog from './components/Blog.js'
-import Class from './components/Class.js'
+import Grade from './components/Grade.js'
 import Course from './components/Course.js'
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
 
@@ -33,6 +33,7 @@ const router = createBrowserRouter([
         path: '/showCustomers',
         element: <ShowCustomer></ShowCustomer>
     },
+   
     {
         path: '/showMentors',
         element: <ShowMentor></ShowMentor>
@@ -87,8 +88,8 @@ const router = createBrowserRouter([
         element: <Booking></Booking>
     },
     {
-        path: '/class',
-        element: <Class></Class>
+        path: '/grade',
+        element: <Grade></Grade>
     },
     {
         path: '/course',

@@ -8,7 +8,7 @@ import { useAuthStore } from '../store/store'
 
 import styles from '../styles/Username.module.css';
 
-export default function Username() {
+export default function UserRecovery() {
 
   const navigate = useNavigate();
   const setUsername = useAuthStore(state => state.setUsername);

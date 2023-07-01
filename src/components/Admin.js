@@ -22,7 +22,7 @@ export default function Admin() {
                 <span className='text-gray-500'>Booking <Link className='text-red-500' to="/booking">Show </Link></span>
             </div>
             <div className="text-center py-4">
-                <span className='text-gray-500'>Class <Link className='text-red-500' to="/class">Show </Link></span>
+                <span className='text-gray-500'>Grade <Link className='text-red-500' to="/grade">Show </Link></span>
             </div>
             <div className="text-center py-4">
                 <span className='text-gray-500'>Blog <Link className='text-red-500' to="/blog">Show </Link></span>

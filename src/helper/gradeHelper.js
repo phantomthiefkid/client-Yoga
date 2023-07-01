@@ -9,32 +9,32 @@ const placeholderApi = axios.create({
         'Content-Type': 'application/json'
     }
 });
-export async function deleteBooking(id) {
-    try {
-        const { data } = await placeholderApi.delete(`/booking/deleteBooking/${id}`);
+export async function deleteGrade(id) {
+    try {      
+        const { data } = await placeholderApi.delete(`/grade/deleteGrade/${id}`);
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not delete' });
     }
 }
-export async function updateBooking(id) {
-    try {
-        return await placeholderApi.post(`/booking/updateBooking/${id}`);
-    } catch (error) {
-        return Promise.reject({ error: 'Could not update' });
-    }
-}
-export async function getAllBookings() {
-    try {
-        const { data } = await placeholderApi.get('/booking/getAllBookings');
+// export async function updateGrade(id) {
+//     try {      
+//         return await placeholderApi.post(`/grade/updateGrade/${id}`);
+//     } catch (error) {
+//         return Promise.reject({ error: 'Could not update' });
+//     }
+// }
+export async function getAllGrades() {
+    try {      
+        const { data } = await placeholderApi.get('/grade/getAllGrades');
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not get' });
     }
 }
-export async function createBooking(data) {
-    try {
-        return await placeholderApi.post(`/booking/createBooking`, data);
+export async function createGrade(data){
+    try {      
+        return await placeholderApi.post(`/grade/createGrade`,data);
     } catch (error) {
         return Promise.reject({ error: 'Could not create' });
     }

@@ -1,74 +1,49 @@
-import Select from 'react-select'
 import React, { useState, useEffect } from 'react';
-import {
-    getAllBookings,
-    createBooking,
-    deleteBooking,
-    updateBooking
-} from '../helper/bookingHelper.js';
-import { getCustomers } from '../helper/helper.js';
-import { getAllGrades } from '../helper/gradeHelper.js';
+import Select from 'react-select'
+import { getMentors } from '../helper/helper';
+import { getAllCourses } from '../helper/courseHelper';
+import { deleteGrade, createGrade, getAllGrades } from '../helper/gradeHelper'
 
 
-export default function Booking() {
-    const [data, setData] = useState([]);
+export default function Grade() {
+    const [mentors, setMentor] = useState([])
+    // const [customers, setCustomers] = useState([])
+    const [courses, setCourses] = useState([])
+    const [grades, setGrades] = useState([])
+    const [newData, setNewData] = useState([])
     const [showModal, setShowModal] = useState(false);
-    const [newData, setNewData] = useState({})
-    const [customers, setCustomers] = useState([])
-    const [grades, setGrade] = useState([])
-    // const [disable,setDisable] = useState(false)
-    // const [options, setOptions] = useState([])
-    // const handleChange = (event) => {
-    //     setNewData({ ...newData, [event.target.name]: event.target.value });
-    // }
-    const handleSelectCustomer = (event, meta) => {
-        // console.log(meta.name)
-        setNewData({ ...newData, [meta.name]: event.value });
-        console.log(newData)
-    }
-    const handleSelectGrade = (event, meta) => {
-        // console.log(meta.name)
-        setNewData({ ...newData, [meta.name]: event.value });
-        console.log(newData)
-    }
-    let optionsCustomer = customers.map(function (customer) {
-        return { value: customer._id, label: customer.username };
-    })
-    let optionsGrade = grades.map(function (grade) {
-        return { value: grade._id, label: grade.gradeName };
-    })
-    // let username = allUser.map(function (user) {
-    //     return  { value: user.username, label: 'username' };
-    //   })
+
     const fetchData = async () => {
-        const grades = await getAllGrades()
-        const customers = await getCustomers()
-        const response = await getAllBookings();
-        setData(response.data);
-        setCustomers(customers.data);
-        setGrade(grades.data)
-        // console.log(data)
-
+        const courses = await getAllCourses();
+        // const customers = await getCustomers();
+        const mentors = await getMentors()
+        const grades = await getAllGrades();
+        setMentor(mentors.data);
+        // setCustomers(customers.data);
+        setCourses(courses.data)
+        setGrades(grades.data)
+        console.log(grades)
     }
-
     useEffect(() => {
         fetchData();
     }, []);
-
-    const handleDelete = async (event,id) => {
-        event.currentTarget.disabled = true;
+    const handleChange = (event) => {
+        setNewData({ ...newData, [event.target.name]: event.target.value });
+        // console.log(newData)
+    }
+    const handleCreate = async (event, data) => {
+        event.preventDefault()
         try {
-            const response = await deleteBooking(id);
+            const response = await createGrade(data);
+            setShowModal(false);
             fetchData()
         } catch (error) {
             console.error(error)
         }
     }
-    const handleCreate = async (event, data) => {
-        event.preventDefault()
+    const handleDelete = async (id) => {
         try {
-            const response = await createBooking(data);
-            setShowModal(false);
+            const response = await deleteGrade(id);
             fetchData()
         } catch (error) {
             console.error(error)
@@ -77,24 +52,33 @@ export default function Booking() {
     const createModal = () => {
         setShowModal(true);
     }
-    const handleUpdate = async (event, id) => {
-        event.currentTarget.disabled = true;
-        event.preventDefault()
-        try {
-            const response = await updateBooking(id); // Call your update function to update the user data
-            setShowModal(false);
-            fetchData()
-        } catch (error) {
-            console.error(error);
-        }
+    // const handleSelectCustomer = (event, meta) => {
+    //     // console.log(meta.name)
+    //     setNewData({ ...newData, [meta.name]: event.value });
+    // }
+    const handleSelectMentor = (event, meta) => {
+        // console.log(meta.name)
+        setNewData({ ...newData, [meta.name]: event.value });
     }
-
+    const handleSelectCourse = (event, meta) => {
+        // console.log(meta.name)
+        setNewData({ ...newData, [meta.name]: event.value });
+    }
+    // let optionsCustomer = customers.map(function (customers) {
+    //     return { value: customers._id, label: customers.username };
+    // })
+    let optionsMentor = mentors.map(function (mentor) {
+        return { value: mentor._id, label: mentor.username };
+    })
+    let optionsCourse = courses.map(function (course) {
+        return { value: course._id, label: course.courseName };
+    })
     return (
-        <div class="container mx-10 px-5 py-10">
+        <div className='container mx-10 px-5 py-10'>
             <div>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => createModal()}>
-                    New Booking
+                    New Grade
                 </button>
             </div>
 
@@ -102,51 +86,48 @@ export default function Booking() {
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
-                            <th className='px-6 pt-5 pb-4'>Grade name</th>
-                            <th className='px-6 pt-5 pb-4'>Username</th>
-                            <th className='px-6 pt-5 pb-4'>Created At</th>
-                            <th className='px-6 pt-5 pb-4'>Status</th>
+                        
+                            <th className='px-6 pt-5 pb-4'>Mentor</th>
+                            <th className='px-6 pt-5 pb-4'>Number Of Student</th>
+                            <th className='px-6 pt-5 pb-4'>Course</th>
+                            <th className='px-6 pt-5 pb-4'>Grade Name</th>
+                            <th className='px-6 pt-5 pb-4'>From</th>
+                            <th className='px-6 pt-5 pb-4'>To</th>
                             <th className='px-6 pt-5 pb-4'>Action</th>
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-200'>
-                        {data.map((data) => (
-                            <tr key={data._id}>
+                        {grades.map((grade) => (
+                            <tr key={grade._id}>
+                                
 
-
-                                <td className='px-6 py-4'>{grades.map((grade) => {
+                                <td className='px-6 py-4'>{mentors.map((mentor) => {
                                     // {
                                     //   if(data._id == user._id)  [user.username]
                                     // }
-                                    if (data.grade == grade._id) // where dataid === courseid =
-                                        return grade.gradeName
+                                    if (grade.instructor == mentor._id)
+                                        return mentor.username
 
                                     // data cua? booking
                                 })}</td>
-                                <td className='px-6 py-4'>{customers.map((customer) => {
+                                <td className='px-6 py-4'>{grade.nOfStudent}</td>
+                                <td className='px-6 py-4'>{courses.map((course) => {
                                     // {
                                     //   if(data._id == user._id)  [user.username]
                                     // }
-                                    if (data.user == customer._id)
-                                        return customer.username
+                                    if (grade.course == course._id)
+                                        return course.courseName
 
-                                    // data cua? booking
+
                                 })}</td>
-                                <td className='px-6 py-4'>{data.createdAt}</td>
-                                <td className='px-6 py-4'>{data.isAccepted}</td>
+                                <td className='px-6 py-4'>{grade.gradeName}</td>
+                                <td className='px-6 py-4'>{grade.startTimeGrade}</td>
+                                <td className='px-6 py-4'>{grade.endTimeGrade}</td>
                                 <td className='px-6 py-4'>
-                                    {data.isAccepted == 0 &&
-                                        <button
-                                            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2'
-                                            onClick={(event) => handleUpdate(event, data._id)}
-                                        >
-                                            Accept
-                                        </button>
-                                    }
 
                                     <button
                                         className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                                        onClick={(event) => handleDelete(event,data._id)}
+                                        onClick={() => handleDelete(grade._id)}
                                     >
                                         Delete
                                     </button>
@@ -167,7 +148,7 @@ export default function Booking() {
                                     {/*header*/}
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                         <h3 className="text-3xl font-semibold">
-                                            Create Booking
+                                            Create Grade
                                         </h3>
                                         <button
                                             className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -181,16 +162,30 @@ export default function Booking() {
                                     {/*body*/}
                                     <form>
                                         <div className="mb-4">
-                                            <label className="block text-gray-700 font-bold mb-2">Grade :</label>
-                                            <Select options={optionsGrade} name="grade" onChange={(event, meta) => handleSelectGrade(event, meta)} />
+                                            <label className="block text-gray-700 font-bold mb-2">Course :</label>
+                                            <Select options={optionsCourse} name="course" onChange={(event, meta) => handleSelectCourse(event, meta)} />
                                         </div>
-
-
                                         <div className="mb-4">
-                                            <label className="block text-gray-700 font-bold mb-2">Customer :</label>
-                                            <Select options={optionsCustomer} name="user" onChange={(event, meta) => handleSelectCustomer(event, meta)} />
+                                            <label className="block text-gray-700 font-bold mb-2">Mentor :</label>
+                                            <Select options={optionsMentor} name="instructor" onChange={(event, meta) => handleSelectMentor(event, meta)} />
                                         </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">Grade Name :</label>
+                                            <input type="text" name="gradeName" onChange={(event) => handleChange(event)} ></input>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">Description :</label>
+                                            <input type="text" name="description" onChange={(event) => handleChange(event)} ></input>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">From :</label>
+                                            <input type="time" name="startTimeGrade" onChange={(event) => handleChange(event)} ></input>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">To :</label>
+                                            <input type="time" name="endTimeGrade" onChange={(event) => handleChange(event)}></input>
 
+                                        </div>
 
                                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                             <button

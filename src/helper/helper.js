@@ -86,10 +86,6 @@ export async function updateUser_1(userId, updatedUser) {
         return Promise.reject({ error: 'Could not getAll' });
     }
 }
-
-
-
-
 /** get User details */
 export async function getUser({ username }) {
     try {
