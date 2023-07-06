@@ -3,6 +3,7 @@ import { getAllGrades } from "../helper/gradeHelper";
 import { getAllCourses } from '../helper/courseHelper';
 import { getMentors } from '../helper/helper';
 import { createBooking } from '../helper/bookingHelper';
+import useFetch from '../hooks/fetch.hook';
 import React, { useState, useEffect } from 'react';
 
 export default function Detail() {
@@ -11,23 +12,28 @@ export default function Detail() {
   const [grade, setGrade] = useState([]);
   const [mentors, setMentor] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [newData,setNewData]  = useState([])
+  const [newData, setNewData] = useState([])
+  const [{ isLoading, apiData, serverError }] = useFetch();
+  let userId = apiData?._id;
   const fetchData = async () => {
+    // const [{ isLoading, apiData, serverError }] = useFetch();
+    // userId = apiData?._id
     const grades = await getAllGrades();
     const courses = await getAllCourses();
     const mentors = await getMentors()
     setMentor(mentors.data);
     setGrades(grades.data)
     setCourses(courses.data)
-    // console.log(grades)
+    setNewData(id);
+    // setNewData(userId);
+    console.log(newData)
   }
 
   const handleBooking = async (event, newData) => {
     event.preventDefault()
     try {
       const response = await createBooking(newData);
-      // setNewData(id)
-      
+
     } catch (error) {
       console.error(error)
     }
@@ -57,10 +63,13 @@ export default function Detail() {
               if (mentor._id == grade.instructor)
                 return mentor.username;
             })}</p>
+
             <p className="mt-4 font-serif text-xl">Price: <b>${courses.map((course) => {
               if (course._id == grade.course)
                 return course.price;
             })}</b></p>
+            <p>{newData}</p>
+            {/* <p>{userId}</p> */}
             <button className="mt-8 font-serif bg-green-400 hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded-3xl w-36 h-12" onClick={(event) => handleBooking(event, newData)}>Book Now</button>
           </div>
 
