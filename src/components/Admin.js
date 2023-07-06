@@ -30,6 +30,9 @@ export default function Admin() {
             <div className="text-center py-4">
                 <span className='text-gray-500'>Course <Link className='text-red-500' to="/course">Show </Link></span>
             </div>
+            <div className="text-center py-4">
+                <span className='text-gray-500'>Class <Link className='text-red-500' to="/class">Show </Link></span>
+            </div>
         </div>
 
     )

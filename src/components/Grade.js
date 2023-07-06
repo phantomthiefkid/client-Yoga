@@ -29,7 +29,7 @@ export default function Grade() {
     }, []);
     const handleChange = (event) => {
         setNewData({ ...newData, [event.target.name]: event.target.value });
-        // console.log(newData)
+        // console.log(newData) 
     }
     const handleCreate = async (event, data) => {
         event.preventDefault()

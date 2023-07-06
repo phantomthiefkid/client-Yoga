@@ -23,7 +23,8 @@ import Blog from './components/Blog.js'
 import Grade from './components/Grade.js'
 import Course from './components/Course.js'
 import { AuthorizeUser, ProtectRoute } from './middleware/auth'
-
+import Class from "./components/Class";
+import Detail from "./components/DetailClass";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
     {
         path: '/grade',
         element: <Grade></Grade>
+    },
+    {
+        path: '/class',
+        element: <Class></Class>
+    },
+    {
+        path: '/detail/:id',
+        element: <Detail></Detail>
     },
     {
         path: '/course',
